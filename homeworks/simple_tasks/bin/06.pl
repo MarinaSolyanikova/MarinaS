@@ -8,16 +8,16 @@ sub encode {
    my $encoded_str = '';
    my @str = unpack("C*", $str);
 	foreach my $val (@str) {
-    
-		if ($key < 256) {
+    		
+		if ($key < 128) {
         
 		$val = $val + $key;
         
 		}
         
 		else {
-        
-		$key = $key-256;
+        	my $k = int($key/128);
+		$key = $key - 128*$k;
 		$val = $val + $key;
         
 		}
@@ -36,15 +36,15 @@ sub decode {
     
 	foreach my $val (@encoded_str) {
     
-		if ($key < 256) {
+		if ($key < 128) {
         
 		$val = $val - $key;
         
 		}
         
 		else {
-        
-		$key = $key - 256;
+        	my $k = int($key/128);
+		$key = $key - 128*$k;
 		$val = $val - $key;
         
 		}
